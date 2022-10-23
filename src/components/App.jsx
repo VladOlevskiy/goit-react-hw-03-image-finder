@@ -7,7 +7,9 @@ import { AppWrap } from './App-styled';
 import { Modal } from './Modal/Modal';
 import { ImgModal } from './ImgModal/ImgModal';
 import { Button } from './Button/Button';
-// import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export class App extends Component {
   state = {
@@ -51,6 +53,8 @@ export class App extends Component {
 
   onSubmit = values => {
     if (values.searchQuery === '') {
+      Notify.failure('Enter something');
+      console.log('aaa');
       return;
     }
     this.setState({

@@ -28,23 +28,3 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
-
-// export const ImageGalleryItem = ({ images, aa }) => {
-//   const bb = evt => {
-//     aa();
-//     const idCurrent = evt.currentTarget.getAttribute('data-key');
-//     this.props.setState({ idForModal: idCurrent });
-//   };
-
-//   return (
-//     <>
-//       {images.map(image => {
-//         return (
-//           <ImageGalleryLi data-key={image.id} key={image.id} onClick={bb}>
-//             <ImageGalleryItemImage src={image.webformatURL} alt="" />
-//           </ImageGalleryLi>
-//         );
-//       })}
-//     </>
-//   );
-// };
