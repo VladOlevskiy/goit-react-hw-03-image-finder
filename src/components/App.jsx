@@ -8,7 +8,7 @@ import { Modal } from './Modal/Modal';
 import { ImgModal } from './ImgModal/ImgModal';
 import { Button } from './Button/Button';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-// import { FallingLines } from 'react-loader-spinner';
+import { Loader } from './Loader/Loader';
 
 export class App extends Component {
   state = {
@@ -17,22 +17,43 @@ export class App extends Component {
     isModalOpen: false,
     idForModal: null,
     page: 1,
+    loading: false,
+    totalPages: null,
+    btn: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
-      console.log('перший пошук');
+      this.setState({
+        loading: true,
+        totalPages: null,
+        btn: false,
+      });
       const images = await GetImg(this.state.searchQuery);
       this.setState({
         page: 1,
-        images: images,
+        images: images.hits,
+        loading: false,
+        totalPages: Math.round(images.totalHits / 12),
       });
+      if (images.hits.length === 0) {
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again'
+        );
+        return;
+      }
     }
     if (prevState.page !== this.state.page && this.state.page !== 1) {
-      console.log('другий пошук');
+      if (this.state.totalPages < this.state.page) {
+        this.setState({ btn: true });
+        Notify.failure('This is the END');
+        return;
+      }
+      this.setState({ loading: true });
       const images = await GetImg(this.state.searchQuery, this.state.page);
       this.setState(prevState => ({
-        images: prevState.images.concat(images),
+        images: prevState.images.concat(images.hits),
+        loading: false,
       }));
     }
   }
@@ -53,7 +74,6 @@ export class App extends Component {
   onSubmit = values => {
     if (values.searchQuery === '') {
       Notify.failure('Enter something');
-      console.log('aaa');
       return;
     }
     this.setState({
@@ -65,6 +85,7 @@ export class App extends Component {
     return (
       <AppWrap>
         <Searchbar onSubmit={this.onSubmit} />
+        {this.state.loading && <Loader />}
         {this.state.images.length > 0 && (
           <ImageGallery
             item={
@@ -80,7 +101,10 @@ export class App extends Component {
             {<ImgModal images={this.state} />}
           </Modal>
         )}
-        {this.state.images.length > 0 && <Button onClick={this.loadMore} />}
+        {this.state.loading && this.state.images.length > 0 && <Loader />}
+        {this.state.images.length > 0 && !this.state.loading && (
+          <Button onClick={this.loadMore} disable={this.state.btn} />
+        )}
       </AppWrap>
     );
   }

@@ -12,7 +12,6 @@ export class Searchbar extends Component {
   };
 
   handleSubmit = (values, { resetForm }) => {
-    console.log(values.searchQuery);
     this.props.onSubmit(values);
     resetForm();
   };
