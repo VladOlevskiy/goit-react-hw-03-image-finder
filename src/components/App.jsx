@@ -7,9 +7,8 @@ import { AppWrap } from './App-styled';
 import { Modal } from './Modal/Modal';
 import { ImgModal } from './ImgModal/ImgModal';
 import { Button } from './Button/Button';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+// import { FallingLines } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
