@@ -3,6 +3,7 @@ import {
   ImageGalleryLi,
   ImageGalleryItemImage,
 } from './ImageGalleryItem-styled';
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
   handleClick = evt => {
@@ -28,3 +29,8 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  images: PropTypes.array,
+};

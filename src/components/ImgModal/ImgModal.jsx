@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class ImgModal extends Component {
   render() {
-    const xx = this.props.images.idForModal;
-    const yy = this.props.images.images;
-    let aa;
-    yy.forEach(image => {
-      if (image.id === Number(xx)) {
-        return (aa = `${image.largeImageURL}`);
+    const idCurrentImageForModal = Number(this.props.images.idForModal);
+    const arrayImg = this.props.images.images;
+    let largeImageURL;
+    let imgTeg;
+
+    arrayImg.forEach(image => {
+      if (image.id === idCurrentImageForModal) {
+        return (
+          (largeImageURL = `${image.largeImageURL}`), (imgTeg = `${image.tags}`)
+        );
       }
     });
 
-    return <img src={aa} width="800px" alt=""></img>;
+    return <img src={largeImageURL} width="800px" alt={imgTeg}></img>;
   }
 }
+
+ImgModal.propTypes = {
+  idForModal: PropTypes.number,
+  images: PropTypes.object,
+  largeImageURL: PropTypes.string,
+};
